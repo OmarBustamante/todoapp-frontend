@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react"
+import { FaCheck } from "react-icons/fa6";
+import { CheckBox } from "./CheckBox";
 
-/* type fetch = {
+type fetch = {
     data: any
-    fetch: (num:number, text:string, priority:string, done:string, sort:string) => void
-} */
+    sortPriority: any
+    setSortPriority: any
+    sortDue: any
+    setSortDue: any
+}
 
 //export const TodosTable:React.FC<fetch> = ({data, fetch}) => {
-export const TodosTable = ({data,sortPriority,setSortPriority, sortDue, setSortDue}) => {
+export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority, sortDue, setSortDue}) => {
     return (
         <div>
             <table>
@@ -26,7 +31,12 @@ export const TodosTable = ({data,sortPriority,setSortPriority, sortDue, setSortD
                 <tbody>
                     {data.map((todo:any) => (
                         <tr key={todo.id}>
-                            <td>{todo.id}</td>
+                            <td className="flex justify-center p-2">
+                                <CheckBox 
+                                    id={todo.id}
+                                    done={todo.done}
+                                />
+                            </td>
                             <td>{todo.text}</td>
                             <td>{todo.priority}</td>
                             <td>{todo.dueDate}</td>
