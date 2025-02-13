@@ -1,5 +1,12 @@
+import React, { useEffect, useState } from "react"
 
-export const TodosTable = ({data}:any) => {
+/* type fetch = {
+    data: any
+    fetch: (num:number, text:string, priority:string, done:string, sort:string) => void
+} */
+
+//export const TodosTable:React.FC<fetch> = ({data, fetch}) => {
+export const TodosTable = ({data,num,text,priority,setPriority,done,sort,setSort}) => {
     return (
         <div>
             <table>
@@ -7,8 +14,22 @@ export const TodosTable = ({data}:any) => {
                     <tr>
                         <th>check</th>
                         <th>Name</th>
-                        <th>Priority</th>
-                        <th>Due Date</th>
+                        <th onClick={() => {
+                            if(priority==""){
+                                setPriority("HIGH")
+                            } else if(priority=='HIGH'){
+                                setPriority("LOW")
+                            } else{
+                                setPriority("")
+                            }
+                        }}>Priority</th>
+                        <th onClick={() => {
+                            if(sort==""){
+                                setSort("due")
+                            } else{
+                                setSort("")
+                            }
+                        }}>Due Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
