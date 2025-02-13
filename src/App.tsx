@@ -11,12 +11,30 @@ function App() {
   const [text, setText] = useState("")
   const [priority, setPriority] = useState("")
   const [done, setDone] = useState("")
+  //parametro sort
+  const [sortPriority, setSortPriority] = useState("")
+  const [sortDue, setSortDue] = useState("")
   const [sort, setSort] = useState("")
   
   useEffect(() => {
       fetchAll()
       fetchPage(num,text,priority,done,sort)
   }, [num,text,priority,done,sort]);
+
+  //Effect establece el sort
+  useEffect(() => {
+    if(sortPriority == "high" && sortDue == "due") {
+      setSort("dueHigh")
+    } else if(sortPriority == "low" && sortDue == "due"){
+      setSort("dueLow")
+    } else if(sortPriority == "high" && sortDue == "far"){
+      setSort("farHigh")
+    } else if(sortPriority == "low" && sortDue == "far"){
+      setSort("farLow")
+    }  else{
+      sortPriority!="" ? setSort(sortPriority) : sortDue!="" ? setSort(sortDue) : setSort("")
+    }
+  },[sortPriority, sortDue])
 
   const fetchAll = () => {
     fetch("http://localhost:9090/todos")
@@ -55,20 +73,15 @@ function App() {
         <button>New</button>
         <TodosTable 
           data = {page} 
-          num = {num}
-          text = {text}
-          priority = {priority}
-          setPriority = {setPriority}
-          done = {done}
-          sort = {sort}
-          setSort = {setSort}
+          sortPriority = {sortPriority}
+          setSortPriority = {setSortPriority}
+          sortDue = {sortDue}
+          setSortDue = {setSortDue}
         />
         <div>
-          <button onClick={() => fetchPage(1,'','','','')}>1</button>
-          <button onClick={() => fetchPage(2,'','','','')}>2</button>
-          <button onClick={() => fetchPage(1,'','HIGH','','')}>HIGH</button>
-          <button onClick={() => fetchPage(1,'','','true','')}>TRUE</button>
-          <button onClick={() => fetchPage(1,'','','','low')}>low</button>
+          <button onClick={() => setNum(1)}>1</button>
+          <button onClick={() => setNum(2)}>2</button>
+          <button onClick={() => setNum(3)}>3</button>
         </div>
         <div>Data</div>
       </div>

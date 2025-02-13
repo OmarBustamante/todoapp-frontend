@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react"
 } */
 
 //export const TodosTable:React.FC<fetch> = ({data, fetch}) => {
-export const TodosTable = ({data,num,text,priority,setPriority,done,sort,setSort}) => {
+export const TodosTable = ({data,sortPriority,setSortPriority, sortDue, setSortDue}) => {
     return (
         <div>
             <table>
@@ -14,21 +14,11 @@ export const TodosTable = ({data,num,text,priority,setPriority,done,sort,setSort
                     <tr>
                         <th>check</th>
                         <th>Name</th>
-                        <th onClick={() => {
-                            if(priority==""){
-                                setPriority("HIGH")
-                            } else if(priority=='HIGH'){
-                                setPriority("LOW")
-                            } else{
-                                setPriority("")
-                            }
+                        <th onClick={() => { 
+                            sortPriority=="" ? setSortPriority("high") : sortPriority=="high" ? setSortPriority("low") : setSortPriority("")
                         }}>Priority</th>
-                        <th onClick={() => {
-                            if(sort==""){
-                                setSort("due")
-                            } else{
-                                setSort("")
-                            }
+                        <th onClick={() => { 
+                            sortDue=="" ? setSortDue("due") : sortDue=="due" ? setSortDue("far") : setSortDue("")
                         }}>Due Date</th>
                         <th>Actions</th>
                     </tr>
