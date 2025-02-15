@@ -21,6 +21,16 @@ function App() {
   const [todoDelete, setTodoDelete] = useState(false)
 
   const [modalOpen, setModalOpen] = useState(false)
+
+  //Pagination
+  const pagination = []
+  let numPages = allData.length / 10
+  if(allData.length % 10 !== 0){
+    numPages++
+  }
+  for (let i = 1; i <= numPages; i++) {
+    pagination.push(<button onClick={() => setNum(i)}>{i}</button>)
+  }
   
   useEffect(() => {
       setTodoDelete(false)
@@ -98,9 +108,7 @@ function App() {
           setTodoDelete = {setTodoDelete}
         />
         <div>
-          <button onClick={() => setNum(1)}>1</button>
-          <button onClick={() => setNum(2)}>2</button>
-          <button onClick={() => setNum(3)}>3</button>
+          {pagination}
         </div>
         <div>Data</div>
         <ModalNew
