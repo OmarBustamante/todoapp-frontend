@@ -15,11 +15,14 @@ function App() {
   const [sortPriority, setSortPriority] = useState("")
   const [sortDue, setSortDue] = useState("")
   const [sort, setSort] = useState("")
+
+  const [todoDelete, setTodoDelete] = useState(false)
   
   useEffect(() => {
+      setTodoDelete(false)
       fetchAll()
       fetchPage(num,text,priority,done,sort)
-  }, [num,text,priority,done,sort]);
+  }, [num,text,priority,done,sort,todoDelete]);
 
   //Effect establece el sort
   useEffect(() => {
@@ -77,6 +80,7 @@ function App() {
           setSortPriority = {setSortPriority}
           sortDue = {sortDue}
           setSortDue = {setSortDue}
+          setTodoDelete = {setTodoDelete}
         />
         <div>
           <button onClick={() => setNum(1)}>1</button>
