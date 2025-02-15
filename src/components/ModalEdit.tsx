@@ -20,6 +20,10 @@ export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority}: ty
       setEditText(text)
       setEditPriority(priority)
       setEditDate(date)
+    } else{
+      setEditText("")
+      setEditPriority("")
+      setEditDate("")
     }
   }, [modalOpen, text, priority])
 
@@ -42,10 +46,6 @@ export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority}: ty
     })
   }
 
-  const onhandleSubmit = () => {
-    fetchUpdate()
-  }
-
   return (
     <div 
     onClick={() => setModalOpen(false)}
@@ -61,14 +61,14 @@ export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority}: ty
                       onChange={(e) => setEditText(e.target.value)}
                     />
                 </label>
-                <label htmlFor=""> Text
+                <label htmlFor=""> Priority
                     <input 
                       type="Priority"
                       value={editPriority}
                       onChange={(e) => setEditPriority(e.target.value)}
                     />
                 </label>
-                <label htmlFor=""> Text
+                <label htmlFor=""> DueDate
                     <input 
                       type="DueDate"
                       value={editDate}
