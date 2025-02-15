@@ -4,6 +4,7 @@ import { Search } from './components/Search'
 import { TodosTable } from './components/TodosTable'
 import { ModalNew } from './components/ModalNew'
 
+
 function App() {
   const [allData, setAllData] = useState([])
   const [page, setPage] = useState([]);
@@ -67,15 +68,26 @@ function App() {
           setPage(page)
       })
       .catch((error) => {
-          console.log("Fetching error: ", error)
-          alert(error)
+          if(error == "SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input"){
+            alert("No task found")
+          } else{
+            console.log("Fetching error: ", error)
+            alert(error)
+          }
       })
   } 
 
   return (
     <>
       <div className=' m-15'>
-        <Search />
+        <Search 
+          text={text}
+          setText={setText}
+          priority={priority}
+          setPriority={setPriority}
+          done={done}
+          setDone={setDone}
+        />
         <button onClick={() => setModalOpen(true)}>New</button>
         <TodosTable 
           data = {page} 
