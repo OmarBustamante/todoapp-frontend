@@ -24,19 +24,22 @@ export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority}: ty
   }, [modalOpen, text, priority])
 
   const fetchUpdate = () => {
-      fetch(`http://localhost:9090/todos/${id}?text=${editText}&date=${editDate}&priority=${editPriority}`, {
-          method: "PUT",
-          headers: {
-          "Content-Type": "application/json"
-          },
-      })
-      .then((response) => {
-          if(!response.ok) throw new Error("Error deleting data")
-      })
-      .catch((error) => {
-          console.log("Fetching error: ", error)
-          alert(error)
-      })
+    let url = ""
+    editDate == undefined ? url = `http://localhost:9090/todos/${id}?text=${editText}&priority=${editPriority}`
+    : url = `http://localhost:9090/todos/${id}?text=${editText}&date=${editDate}&priority=${editPriority}` 
+    fetch(url, {
+        method: "PUT",
+        headers: {
+        "Content-Type": "application/json"
+        },
+    })
+    .then((response) => {
+        if(!response.ok) throw new Error("Error updating data")
+    })
+    .catch((error) => {
+        console.log("Fetching error: ", error)
+        alert(error)
+    })
   }
 
   const onhandleSubmit = () => {

@@ -17,12 +17,15 @@ function App() {
   const [sort, setSort] = useState("")
 
   const [todoDelete, setTodoDelete] = useState(false)
+
+  const [reload, setReload] = useState(false)
   
   useEffect(() => {
       setTodoDelete(false)
+      setReload(false)
       fetchAll()
       fetchPage(num,text,priority,done,sort)
-  }, [num,text,priority,done,sort,todoDelete]);
+  }, [num,text,priority,done,sort,todoDelete, reload]);
 
   //Effect establece el sort
   useEffect(() => {
@@ -69,11 +72,38 @@ function App() {
       })
   } 
 
+  const fetchNew = () => {
+    fetch(`http://localhost:9090/todos`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "id": null,
+          "text": "",
+          "dueDate": null,
+          "done": false,
+          "doneDate": null,
+          "priority": "LOW",
+          "creationDate": null
+        }),
+    })
+    .then((response) => {
+        if(!response.ok) throw new Error("Error deleting data")
+    })
+    .catch((error) => {
+        console.log("Fetching error: ", error)
+        alert(error)
+    })
+
+    setReload(true)
+  }
+
   return (
     <>
       <div className=' m-15'>
         <Search />
-        <button>New</button>
+        <button onClick={() => fetchNew()}>New</button>
         <TodosTable 
           data = {page} 
           sortPriority = {sortPriority}

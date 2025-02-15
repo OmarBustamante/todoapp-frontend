@@ -18,7 +18,7 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
 
     const [editId, setEditId] = useState()
     const [editText, setEditText] = useState("")
-    const [editDate, setEditDate] = useState()
+    const [editDate, setEditDate] = useState("")
     const [editPriority, setEditPriority] = useState()
 
     const fetchDelete = (id:number) => {
