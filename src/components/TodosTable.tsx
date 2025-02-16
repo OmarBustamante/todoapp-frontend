@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { CheckBox } from "./CheckBox";
 import { ModalEdit } from "./ModalEdit";
 
