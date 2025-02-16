@@ -21,22 +21,15 @@ function App() {
   const [todoDelete, setTodoDelete] = useState(false)
 
   const [modalOpen, setModalOpen] = useState(false)
+  const [reload, setReload] = useState(false)
 
-  //Pagination
-  const pagination = []
-  let numPages = allData.length / 10
-  if(allData.length % 10 !== 0){
-    numPages++
-  }
-  for (let i = 1; i <= numPages; i++) {
-    pagination.push(<button onClick={() => setNum(i)}>{i}</button>)
-  }
-  
+  // Actualiza tabla
   useEffect(() => {
       setTodoDelete(false)
+      setReload(false)
       fetchAll()
       fetchPage(num,text,priority,done,sort)
-  }, [num,text,priority,done,sort,todoDelete]);
+  }, [num,text,priority,done,sort,todoDelete,reload]);
 
   //Effect establece el sort
   useEffect(() => {
@@ -87,6 +80,55 @@ function App() {
       })
   } 
 
+  //Pagination
+  const pagination = []
+  let numPages = allData.length / 10
+  if(allData.length % 10 !== 0){
+    numPages++
+  }
+  for (let i = 1; i <= numPages; i++) {
+    pagination.push(<button onClick={() => setNum(i)}>{i}</button>)
+  }
+
+  // Metrics
+  let timeTotal = 0
+  let timeHigh = 0
+  let timeMed = 0
+  let timeLow = 0
+
+  allData.forEach((todo: any) => {
+    if(todo.done){
+      let createDate = new Date(todo.creationDate)
+      let doneDate = new Date(todo.doneDate)
+
+      let time = doneDate.getTime() - createDate.getTime()
+
+      timeTotal += time
+  
+      switch(todo.priority){
+        case "HIGH":
+          timeHigh += time
+          break;
+        case "MEDIUM":
+          timeMed += time
+          break;
+        case "LOW":
+          timeLow += time
+          break;
+        default:
+          break;
+      }
+    }
+  })
+
+  const formatTime = (time: number) => {
+    const days = Math.floor(time / (1000*60*60*24))
+    const hours = Math.floor((time % (1000*60*60*24)) / (1000*60*60))
+    const minutes = Math.floor((time % (1000*60*60)) / (1000*60))
+
+    return `${days} ${hours}:${minutes}`
+  } 
+
   return (
     <>
       <div className=' m-15'>
@@ -106,11 +148,19 @@ function App() {
           sortDue = {sortDue}
           setSortDue = {setSortDue}
           setTodoDelete = {setTodoDelete}
+          setReload = {setReload}
         />
         <div>
           {pagination}
         </div>
-        <div>Data</div>
+        <div>
+          <div>Total: {formatTime(timeTotal)}</div>
+          <div>
+            <p>High: {formatTime(timeHigh)}</p>
+            <p>Medium: {formatTime(timeMed)}</p>
+            <p>Low: {formatTime(timeLow)}</p>
+          </div>
+        </div>
         <ModalNew
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}

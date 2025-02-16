@@ -9,10 +9,11 @@ type fetch = {
     sortDue: any
     setSortDue: any
     setTodoDelete: any
+    setReload : any
 }
 
 //export const TodosTable:React.FC<fetch> = ({data, fetch}) => {
-export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority, sortDue, setSortDue, setTodoDelete}) => {
+export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority, sortDue, setSortDue, setTodoDelete, setReload}) => {
 
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -74,6 +75,7 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
                                 <CheckBox 
                                     id={todo.id}
                                     done={todo.done}
+                                    setReload={setReload}
                                 />
                             </td>
                             <td>{todo.text}</td>

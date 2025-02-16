@@ -4,9 +4,10 @@ import { FaCheck } from "react-icons/fa6";
 type types = {
   id: number
   done: boolean
+  setReload: any
 }
 
-export const CheckBox = ({id, done}: types) => {
+export const CheckBox = ({id, done, setReload}: types) => {
   const [check, setCheck] = useState(done);
 
   const fetchDone = () => {
@@ -52,6 +53,7 @@ export const CheckBox = ({id, done}: types) => {
         fetchDone()
       }
       setCheck(!check)
+      setReload(true)
     }}>
         {check ? <FaCheck color="green" /> : <></>}
     </div>
