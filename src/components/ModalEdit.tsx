@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 
 type types = {
     id: any
@@ -7,19 +8,21 @@ type types = {
     text: string
     date: any
     priority: any
+    setReload: any
 }
 
-export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority}: types) => {
+export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority, setReload}: types) => {
 
   const [editText, setEditText] = useState("")
   const [editPriority, setEditPriority] = useState("")
   const [editDate, setEditDate] = useState("")
+  const [openPriority, setOpenPriority] = useState(false)
   // Este effect acualizar el valor cuando se abre el modal
   useEffect(() => {
     if(modalOpen){
       setEditText(text)
       setEditPriority(priority)
-      setEditDate(date)
+      setEditDate(date.split("T")[0])
     } else{
       setEditText("")
       setEditPriority("")
@@ -30,7 +33,7 @@ export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority}: ty
   const fetchUpdate = () => {
     let url = ""
     editDate == undefined ? url = `http://localhost:9090/todos/${id}?text=${editText}&priority=${editPriority}`
-    : url = `http://localhost:9090/todos/${id}?text=${editText}&date=${editDate}&priority=${editPriority}` 
+    : url = `http://localhost:9090/todos/${id}?text=${editText}&date=${editDate}T00:00:00&priority=${editPriority}` 
     fetch(url, {
         method: "PUT",
         headers: {
@@ -44,6 +47,8 @@ export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority}: ty
         console.log("Fetching error: ", error)
         alert(error)
     })
+    setModalOpen(false)
+    setReload(true)
   }
 
   return (
@@ -52,31 +57,42 @@ export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority}: ty
     className={`fixed inset-0 flex items-center justify-center ${modalOpen ? "visible bg-black/20" : "invisible"}`}>
         <div
         onClick={(e) => e.stopPropagation()}
-        className='bg-white w-fit h-fit'>
-            <form action="" className='flex flex-col m-5'>
-                <label htmlFor=""> Text
+        className='bg-white w-fit h-fit p-5'>
+            <div className='flex flex-col m-5'>
+                <label className='mb-2'> Name
                     <input 
-                      type="Name"
+                      className='border-2 ml-8'
+                      type="text"
                       value={editText}
                       onChange={(e) => setEditText(e.target.value)}
                     />
                 </label>
-                <label htmlFor=""> Priority
-                    <input 
-                      type="Priority"
-                      value={editPriority}
-                      onChange={(e) => setEditPriority(e.target.value)}
-                    />
-                </label>
-                <label htmlFor=""> DueDate
-                    <input 
-                      type="DueDate"
-                      value={editDate}
-                      onChange={(e) => setEditDate(e.target.value)}
-                    />
-                </label>
-                <button onClick={() => fetchUpdate()}>Edit</button>
-            </form>
+                <div className='flex'>
+                  <label>Priority</label>
+                  {openPriority ? <div className='border-2 w-46 ml-5 flex flex-col'>
+                    <button className='hover:bg-gray-300' onClick={() => {setEditPriority("HIGH"); setOpenPriority(false)}}>HIGH</button>
+                    <button className='hover:bg-gray-300' onClick={() => {setEditPriority("MEDIUM"); setOpenPriority(false)}}>MEDIUM</button>
+                    <button className='hover:bg-gray-300' onClick={() => {setEditPriority("LOW"); setOpenPriority(false)}}>LOW</button>
+                  </div> 
+                  : <input 
+                    className='border-2 ml-5'
+                    type="text"
+                    value={editPriority}
+                    readOnly
+                    onChange={(e) => setEditPriority(e.target.value)}
+                  />}
+                  <button className='bg-gray-400 w-5 border-2' onClick={() => {setOpenPriority(!openPriority)}}>
+                    {openPriority ? <FaChevronUp /> : <FaChevronDown />}
+                  </button>
+                </div>
+                <label> DueDate</label>
+                <input 
+                  type="date"
+                  value={editDate}
+                  onChange={(e) => setEditDate(e.target.value)}
+                />
+                <button className='hover:bg-amber-500 bg-amber-300 mt-5' onClick={() => fetchUpdate()}>Post</button>
+            </div>
         </div>
     </div>
   )

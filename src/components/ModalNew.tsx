@@ -85,7 +85,7 @@ export const ModalNew = ({modalOpen, setModalOpen, setReload}: types) => {
                   value={newDate}
                   onChange={(e) => setNewDate(e.target.value)}
                 />
-                <button onClick={() => fetchNew()}>Post</button>
+                <button className='hover:bg-amber-500 bg-amber-300 mt-5' onClick={() => fetchNew()}>Post</button>
             </div>
         </div>
     </div>

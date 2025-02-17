@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { CheckBox } from "./CheckBox";
 import { ModalEdit } from "./ModalEdit";
+import { LuChevronsLeftRight, LuChevronDown, LuChevronUp } from "react-icons/lu"
 
 type fetch = {
     data: any
@@ -37,6 +38,8 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
             console.log("Fetching error: ", error)
             alert(error)
         })
+
+        setReload(true)
     }
 
     const formatDate = (date: string) => {
@@ -52,18 +55,20 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
     }
 
     return (
-        <div>
-            <table>
+        <div className="w-full">
+            <table className="w-full text-center">
                 <thead>
                     <tr>
                         <th>check</th>
-                        <th>Name</th>
-                        <th onClick={() => { 
+                        <th className="">Name</th>
+                        <th className="cursor-default"
+                            onClick={() => { 
                             sortPriority=="" ? setSortPriority("high") : sortPriority=="high" ? setSortPriority("low") : setSortPriority("")
-                        }}>Priority</th>
-                        <th onClick={() => { 
+                        }}><div className="flex justify-center items-center">Priority{sortPriority=="" ? <LuChevronsLeftRight /> : sortPriority=="high" ? <LuChevronUp /> : <LuChevronDown />}</div></th>
+                        <th className="cursor-default"
+                            onClick={() => { 
                             sortDue=="" ? setSortDue("due") : sortDue=="due" ? setSortDue("far") : setSortDue("")
-                        }}>Due Date</th>
+                        }}><div className="flex justify-center items-center">Due Date{sortDue=="" ? <LuChevronsLeftRight /> : sortDue=="due" ? <LuChevronUp /> : <LuChevronDown />}</div></th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -78,16 +83,15 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
                                     setReload={setReload}
                                 />
                             </td>
-                            <td>{todo.text}</td>
-                            <td>{todo.priority}</td>
-                            <td>{todo.dueDate == null ? <>-</> : formatDate(todo.dueDate)}</td>
-                            <td className="flex">
-                                <p onClick={() => openEdit(todo.id, todo.text, todo.dueDate, todo.priority)}>Edit</p> 
+                            <td className="max-w-[100px] text-left overflow-scroll whitespace-nowrap">{todo.text}</td>
+                            <td className="">{todo.priority}</td>
+                            <td className="">{todo.dueDate == null ? <>-</> : formatDate(todo.dueDate)}</td>
+                            <td className="flex justify-center">
+                                <button className="border-1 px-2 py-1 bg-yellow-300 mr-1" onClick={() => openEdit(todo.id, todo.text, todo.dueDate, todo.priority)}>Edit</button> 
                                 / 
-                                <p onClick={() => {
+                                <button className="border-1 px-2 py-1 ml-1 bg-red-400" onClick={() => {
                                     fetchDelete(todo.id)
-                                    setTodoDelete(true)
-                                }}>Delete</p>
+                                }}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -100,6 +104,7 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
                 text = {editText}
                 date = {editDate}
                 priority = {editPriority}
+                setReload = {setReload}
             />
         </div>
     )
