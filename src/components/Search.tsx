@@ -67,7 +67,7 @@ export const Search:React.FC<types> = ({setText, setPriority, setDone}) => {
           </label>
         </div>
         <div className='flex items-end ml-36'>
-          <button className='my-2 bg-amber-400 py-1 px-2 border-1' onClick={() => onSearch()} >Search</button>
+          <button className='my-2 bg-amber-400 hover:bg-amber-600 py-1 px-2 border-1' onClick={() => onSearch()} >Search</button>
         </div>
         </div>
     </div>

@@ -87,7 +87,7 @@ function App() {
     numPages++
   }
   for (let i = 1; i <= numPages; i++) {
-    pagination.push(<button onClick={() => setNum(i)}>{i}</button>)
+    pagination.push(<button className={`w-5 h-fit m-1 border-1 hover:bg-gray-200 ${num == i ? "bg-gray-300" : ""}`} onClick={() => setNum(i)}>{i}</button>)
   }
 
   // Metrics
@@ -95,28 +95,38 @@ function App() {
   let timeHigh = 0
   let timeMed = 0
   let timeLow = 0
+  let contadorTotal = 0
+  let contadorHigh = 0
+  let contadorMed = 0
+  let contadorLow = 0
 
   allData.forEach((todo: any) => {
     if(todo.done){
+      contadorTotal++
       let createDate = new Date(todo.creationDate)
       let doneDate = new Date(todo.doneDate)
 
-      let time = doneDate.getTime() - createDate.getTime()
+      if(doneDate.getTime() > createDate.getTime()){
+        let time = doneDate.getTime() - createDate.getTime()
 
-      timeTotal += time
-  
-      switch(todo.priority){
-        case "HIGH":
-          timeHigh += time
-          break;
-        case "MEDIUM":
-          timeMed += time
-          break;
-        case "LOW":
-          timeLow += time
-          break;
-        default:
-          break;
+        timeTotal += time
+    
+        switch(todo.priority){
+          case "HIGH":
+            contadorHigh++
+            timeHigh += time
+            break;
+          case "MEDIUM":
+            contadorMed++
+            timeMed += time
+            break;
+          case "LOW":
+            contadorLow++
+            timeLow += time
+            break;
+          default:
+            break;
+        }
       }
     }
   })
@@ -126,12 +136,12 @@ function App() {
     const hours = Math.floor((time % (1000*60*60*24)) / (1000*60*60))
     const minutes = Math.floor((time % (1000*60*60)) / (1000*60))
 
-    return `${days} ${hours}:${minutes}`
+    return `${days}Days ${hours}Hours ${minutes}Minutes`
   } 
 
   return (
     <>
-      <div className='mt-15 mx-auto flex flex-col w-[50%]'>
+      <div className='mt-10 mx-auto flex flex-col w-[50%]'>
         <Search 
           text={text}
           setText={setText}
@@ -141,7 +151,7 @@ function App() {
           setDone={setDone}
         />
         <div className='my-5'>
-          <button className=' bg-green-500 p-2 border-2' onClick={() => setModalOpen(true)}>+ New To Do</button>
+          <button className=' bg-green-500 hover:bg-green-700 p-2 border-2' onClick={() => setModalOpen(true)}>+ New To Do</button>
         </div>
         <TodosTable 
           data = {page} 
@@ -152,15 +162,23 @@ function App() {
           setTodoDelete = {setTodoDelete}
           setReload = {setReload}
         />
-        <div>
+        <div className='my-8 text-center'>
+          <button className={`w-5 h-fit m-1 border-1 hover:bg-gray-200`} onClick={() => setNum(1)}>{"<<"}</button>
+          <button className={`w-5 h-fit m-1 border-1 hover:bg-gray-200`} onClick={() => {num != 1 ? setNum(num -1) : setNum(1)}}>{"<"}</button>
           {pagination}
+          <button className={`w-5 h-fit m-1 border-1 hover:bg-gray-200`} onClick={() => {num != Math.floor(numPages) ? setNum(num +1) : setNum(Math.floor(numPages))}}>{">"}</button>
+          <button className={`w-5 h-fit m-1 border-1 hover:bg-gray-200`} onClick={() => setNum(Math.floor(numPages))}>{">>"}</button>
         </div>
-        <div>
-          <div>Total: {formatTime(timeTotal)}</div>
+        <div className='border-2 w-full flex justify-between p-5'>
           <div>
-            <p>High: {formatTime(timeHigh)}</p>
-            <p>Medium: {formatTime(timeMed)}</p>
-            <p>Low: {formatTime(timeLow)}</p>
+            <h2 className='font-bold'>Average time to finish tasks:</h2>
+            <div>Total: {formatTime(timeTotal / contadorTotal)}</div>
+          </div>
+          <div className=''>
+            <h2 className='font-bold'>Average time to finish tasks by priority: </h2>
+            <p>High: {formatTime(timeHigh / contadorHigh)}</p>
+            <p>Medium: {formatTime(timeMed / contadorMed)}</p>
+            <p>Low: {formatTime(timeLow / contadorLow)}</p>
           </div>
         </div>
         <ModalNew

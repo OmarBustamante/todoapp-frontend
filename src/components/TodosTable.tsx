@@ -99,9 +99,9 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
                             <td className="">{todo.priority}</td>
                             <td className="">{todo.dueDate == null ? <>-</> : formatDate(todo.dueDate)}</td>
                             <td className="flex justify-center">
-                                <button className="border-1 px-2 py-1 bg-yellow-300 mr-1" onClick={() => openEdit(todo.id, todo.text, todo.dueDate, todo.priority)}>Edit</button> 
+                                <button className="border-1 px-2 py-1 bg-yellow-300 hover:bg-yellow-500 mr-1" onClick={() => openEdit(todo.id, todo.text, todo.dueDate, todo.priority)}>Edit</button> 
                                 / 
-                                <button className="border-1 px-2 py-1 ml-1 bg-red-400" onClick={() => {
+                                <button className="border-1 px-2 py-1 ml-1 bg-red-400 hover:bg-red-600" onClick={() => {
                                     fetchDelete(todo.id)
                                 }}>Delete</button>
                             </td>
