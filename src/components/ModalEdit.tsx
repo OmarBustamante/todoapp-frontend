@@ -91,7 +91,8 @@ export const ModalEdit= ({id, modalOpen, setModalOpen, text, date, priority, set
                   value={editDate}
                   onChange={(e) => setEditDate(e.target.value)}
                 />
-                <button className='hover:bg-amber-500 bg-amber-300 mt-5' onClick={() => fetchUpdate()}>Post</button>
+                <button className='hover:bg-gray-400 bg-gray-200 mt-5' onClick={() => setEditDate("0000-01-01")}>Clear Date</button>
+                <button className='hover:bg-amber-500 bg-amber-300 mt-5' onClick={() => fetchUpdate()}>Edit</button>
             </div>
         </div>
     </div>

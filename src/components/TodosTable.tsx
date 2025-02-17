@@ -87,7 +87,7 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
                 <tbody>
                     {data.map((todo:any) => (
                         // fila de datos en la tabla
-                        <tr key={todo.id} className={`${(todo.dueDate == null || todo.done == true)? "" : getTimeToDue(todo.dueDate) < 7 ? "bg-red-100" : getTimeToDue(todo.dueDate) < 14 ? "bg-yellow-100" : "bg-green-100"}`}>
+                        <tr key={todo.id} className={`${(todo.dueDate == null || todo.dueDate == "0000-01-01T00:00:00" || todo.done == true)? "" : getTimeToDue(todo.dueDate) < 7 ? "bg-red-100" : getTimeToDue(todo.dueDate) < 14 ? "bg-yellow-100" : "bg-green-100"}`}>
                             <td className="flex justify-center p-2">
                                 <CheckBox 
                                     id={todo.id}
@@ -97,7 +97,7 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
                             </td>
                             <td className={`max-w-[100px] text-left overflow-scroll whitespace-nowrap ${todo.done == true ? "line-through" : ""}`}>{todo.text}</td>
                             <td className="">{todo.priority}</td>
-                            <td className="">{todo.dueDate == null ? <>-</> : formatDate(todo.dueDate)}</td>
+                            <td className="">{todo.dueDate == null ? <>-</> : todo.dueDate == "0000-01-01T00:00:00" ? <>-</> : formatDate(todo.dueDate)}</td>
                             <td className="flex justify-center">
                                 <button className="border-1 px-2 py-1 bg-yellow-300 hover:bg-yellow-500 mr-1" onClick={() => openEdit(todo.id, todo.text, todo.dueDate, todo.priority)}>Edit</button> 
                                 / 

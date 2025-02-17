@@ -102,32 +102,31 @@ function App() {
 
   allData.forEach((todo: any) => {
     if(todo.done){
-      contadorTotal++
       let createDate = new Date(todo.creationDate)
       let doneDate = new Date(todo.doneDate)
 
-      if(doneDate.getTime() > createDate.getTime()){
-        let time = doneDate.getTime() - createDate.getTime()
+      contadorTotal++
+      let time = doneDate.getTime() - createDate.getTime()
 
-        timeTotal += time
-    
-        switch(todo.priority){
-          case "HIGH":
-            contadorHigh++
-            timeHigh += time
-            break;
-          case "MEDIUM":
-            contadorMed++
-            timeMed += time
-            break;
-          case "LOW":
-            contadorLow++
-            timeLow += time
-            break;
-          default:
-            break;
-        }
+      timeTotal += time
+  
+      switch(todo.priority){
+        case "HIGH":
+          contadorHigh++
+          timeHigh += time
+          break;
+        case "MEDIUM":
+          contadorMed++
+          timeMed += time
+          break;
+        case "LOW":
+          contadorLow++
+          timeLow += time
+          break;
+        default:
+          break;
       }
+      
     }
   })
 
@@ -172,13 +171,13 @@ function App() {
         <div className='border-2 w-full flex justify-between p-5'>
           <div>
             <h2 className='font-bold'>Average time to finish tasks:</h2>
-            <div>Total: {formatTime(timeTotal / contadorTotal)}</div>
+            <div>Total: {contadorTotal == 0 ? formatTime(0) : formatTime(timeTotal / contadorTotal)}</div>
           </div>
           <div className=''>
             <h2 className='font-bold'>Average time to finish tasks by priority: </h2>
-            <p>High: {formatTime(timeHigh / contadorHigh)}</p>
-            <p>Medium: {formatTime(timeMed / contadorMed)}</p>
-            <p>Low: {formatTime(timeLow / contadorLow)}</p>
+            <p>High: {contadorHigh == 0 ? formatTime(0) : formatTime(timeHigh / contadorHigh)}</p>
+            <p>Medium: {contadorMed == 0 ? formatTime(0): formatTime(timeMed / contadorMed)}</p>
+            <p>Low: {contadorLow == 0 ? formatTime(0) : formatTime(timeLow / contadorLow)}</p>
           </div>
         </div>
         <ModalNew
