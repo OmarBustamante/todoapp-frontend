@@ -131,7 +131,7 @@ function App() {
 
   return (
     <>
-      <div className=' m-15'>
+      <div className='mt-15 mx-auto flex flex-col w-[50%]'>
         <Search 
           text={text}
           setText={setText}
@@ -140,7 +140,9 @@ function App() {
           done={done}
           setDone={setDone}
         />
-        <button onClick={() => setModalOpen(true)}>New</button>
+        <div className='my-5'>
+          <button className=' bg-green-500 p-2 border-2' onClick={() => setModalOpen(true)}>+ New To Do</button>
+        </div>
         <TodosTable 
           data = {page} 
           sortPriority = {sortPriority}
