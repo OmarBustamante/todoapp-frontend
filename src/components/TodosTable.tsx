@@ -53,13 +53,25 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
         setEditPriority(priority)
         setModalOpen(true)
     }
+    
+    //Time to due
+    let currentDate = new Date()
+    let currentTime = currentDate.getTime()
+    const getTimeToDue = (date: Date) => {
+        date = new Date(date)
+        let time = date.getTime() - currentTime
+        let days = Math.floor(time / (1000*60*60*24))
+
+        return(days)
+    }
+
 
     return (
         <div className="w-full">
             <table className="w-full text-center">
                 <thead>
                     <tr>
-                        <th>check</th>
+                        <th>Done</th>
                         <th className="">Name</th>
                         <th className="cursor-default"
                             onClick={() => { 
@@ -75,7 +87,7 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
                 <tbody>
                     {data.map((todo:any) => (
                         // fila de datos en la tabla
-                        <tr key={todo.id}>
+                        <tr key={todo.id} className={`${(todo.dueDate == null || todo.done == true)? "" : getTimeToDue(todo.dueDate) < 7 ? "bg-red-100" : getTimeToDue(todo.dueDate) < 14 ? "bg-yellow-100" : "bg-green-100"}`}>
                             <td className="flex justify-center p-2">
                                 <CheckBox 
                                     id={todo.id}
