@@ -95,7 +95,7 @@ export const TodosTable:React.FC<fetch> = ({data ,sortPriority, setSortPriority,
                                     setReload={setReload}
                                 />
                             </td>
-                            <td className={`max-w-[100px] text-left overflow-scroll whitespace-nowrap ${todo.done == true ? "line-through" : ""}`}>{todo.text}</td>
+                            <td className={`max-w-[100px] text-left overflow-auto whitespace-nowrap ${todo.done == true ? "line-through" : ""}`}>{todo.text}</td>
                             <td className="">{todo.priority}</td>
                             <td className="">{todo.dueDate == null ? <>-</> : todo.dueDate == "0000-01-01T00:00:00" ? <>-</> : formatDate(todo.dueDate)}</td>
                             <td className="flex justify-center">
