@@ -166,6 +166,7 @@ function App() {
         <ModalNew
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
+          setReload={setReload}
         />
       </div>
     </>
